@@ -1,0 +1,163 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'App ju',
+      home: NewsList(),
+    );
+  }
+}
+
+class NewsList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Notícias sobre piscinas de bolinha'),
+      ),
+      backgroundColor: Colors.grey[900],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            NewsCard(
+              source: 'Bolinhas de alegria ',
+              timeAgo: '5 minutos atrás',
+              isLiked: true,
+              imageUrl:
+                  'https://images.unsplash.com/photo-1585081514381-429d5275c855?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              text:
+                  'A piscina de bolinha pode promover diversos beneficios para uma criança, sendo o estímulo sensorial e coordenação motora, desenvolvimento social e emocional, estímulo cognitivo e criatividade, exercício físico e saúde e a redução do estresse.',
+              layoutStyle: 'below',
+            ),
+            NewsCard(
+              source: 'Perigo!',
+              timeAgo: '10 minutos atrás',
+              isLiked: false,
+              imageUrl:
+                  'https://images.unsplash.com/photo-1585081514381-429d5275c855?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              text:
+                  'Piscinas de bolinha podem ter bactérias que causam doenças sérias quando entram em contato com a corrente sanguínea.',
+              layoutStyle: 'below',
+            ),
+            NewsCard(
+              source: 'Cores e sua capacidade de ensinar',
+              timeAgo: '15 minutos atrás',
+              isLiked: true,
+              imageUrl:
+                  'https://images.unsplash.com/photo-1585081514381-429d5275c855?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+              text:
+                  'Estudos comprovam que as cores ajudam no raciocínio lógico da criança, estimulam a criatividade, memorização e a sensibilidade dela.',
+              layoutStyle: 'side',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  final String source;
+  final String timeAgo;
+  final bool isLiked;
+  final String imageUrl;
+  final String text;
+  final String layoutStyle;
+
+  NewsCard({
+    required this.source,
+    required this.timeAgo,
+    required this.isLiked,
+    required this.imageUrl,
+    required this.text,
+    required this.layoutStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.all(10),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child:
+            layoutStyle == 'below' ? _buildBelowLayout() : _buildSideLayout(),
+      ),
+    );
+  }
+
+  Widget _buildBelowLayout() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Usando ClipRRect para arredondar a imagem
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Define o raio das bordas
+          child: Image.network(imageUrl),
+        ),
+        SizedBox(height: 8),
+        Text(source, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(timeAgo),
+        SizedBox(height: 8),
+        Text(text),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: () {},
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSideLayout() {
+    return Row(
+      children: [
+        // Usando ClipRRect para arredondar a imagem
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0), // Define o raio das bordas
+          child: Image.network(imageUrl,
+              width: 100, height: 100, fit: BoxFit.cover),
+        ),
+        SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(source, style: TextStyle(fontWeight: FontWeight.bold)),
+              Text(timeAgo),
+              SizedBox(height: 8),
+              Text(text),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon:
+                        Icon(isLiked ? Icons.favorite : Icons.favorite_border),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.share),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
